@@ -36,6 +36,7 @@ int main()
 						}
 					if(i==dcnt)
 					printf("Directory %s not found",d);
+					dir[i].fcnt++;
 					break;
 				case 3: printf("\nEnter name of the directory -- ");
 					scanf("%s",d);
@@ -90,7 +91,7 @@ int main()
 						printf("\nDirectory\tFiles");
 						for(i=0;i<dcnt;i++)
 					{
-						printf("\n%s\t\t",dir[i].dname);
+						printf("\n%s\t",dir[i].dname);
 						for(k=0;k<dir[i].fcnt;k++)
 						printf("\t%s",dir[i].fname[k]);
 					}
@@ -100,4 +101,3 @@ int main()
 					}
 					}
 }
-
