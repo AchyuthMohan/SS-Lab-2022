@@ -8,6 +8,7 @@ void main()
         f1=fopen("input.txt","r");
         f3=fopen("symtab.txt","w");
         fscanf(f1,"%s%s%d",la,m1,&op1);
+        printf("%s",m1);
         if(strcmp(m1,"START")==0)
         {
                 sa=op1;
@@ -19,6 +20,7 @@ void main()
                 lc=0;
         }
         fscanf(f1,"%s%s",la,m1);
+        // printf("%s%s",la,m1);
         while(!feof(f1))
         {
                 fscanf(f1,"%s",op);

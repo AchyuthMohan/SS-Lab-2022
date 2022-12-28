@@ -1,76 +1,35 @@
-#include <stdio.h>
-#include <conio.h>
-struct pstruct
-{
- int fno;
- int pbit;
-}ptable[10];
-int pmsize,lmsize,psize,frame,page,ftable[20],frameno;
-void info()
-{
- printf("\n\nMEMORY MANAGEMENT USING PAGING\n\n");
- printf("\n\nEnter the Size of Physical memory: ");
- scanf("%d",&pmsize);
- printf("\n\nEnter the size of Logical memory: ");
- scanf("%d",&lmsize);
- printf("\n\nEnter the partition size: ");
- scanf("%d",&psize);
- frame = (int) pmsize/psize;
- page = (int) lmsize/psize;
- printf("\nThe physical memory is divided into %d no.of frames\n",frame);
- printf("\nThe Logical memory is divided into %d no.of pages",page);
-}
-void assign()
-{
- int i;
- for (i=0;i<page;i++)
- {
- ptable[i].fno = -1;
- ptable[i].pbit= -1;
- }
- for(i=0; i<frame;i++)
- ftable[i] = 32555;
- for (i=0;i<page;i++)
- {
- printf("\n\nEnter the Frame number where page %d must be placed: ",i);
- scanf("%d",&frameno);
- ftable[frameno] = i;
- if(ptable[i].pbit == -1)
- {
- ptable[i].fno = frameno;
- ptable[i].pbit = 1;
- }
- }
- getch();
- // clrscr();
- printf("\n\nPAGE TABLE\n\n");
- printf("PageAddress FrameNo. PresenceBit\n\n");
- for (i=0;i<page;i++)
- printf("%d\t\t%d\t\t%d\n",i,ptable[i].fno,ptable[i].pbit);
- printf("\n\n\n\tFRAME TABLE\n\n");
- printf("FrameAddress PageNo\n\n");
- for(i=0;i<frame;i++)
- printf("%d\t\t%d\n",i,ftable[i]);
-}
-void cphyaddr()
-{
- int laddr,paddr,disp,phyaddr,baddr;
- getch();
- // clrscr();
- printf("\n\n\n\tProcess to create the Physical Address\n\n");
- printf("\nEnter the Base Address: ");
- scanf("%d",&baddr);
- printf("\nEnter theLogical Address: ");
- scanf("%d",&laddr);
- paddr = laddr / psize;
- disp = laddr % psize;
- if(ptable[paddr].pbit == 1 )
- phyaddr = baddr + (ptable[paddr].fno*psize) + disp;
- printf("\nThe Physical Address where the instruction present:%d",phyaddr);
-}
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 50
 void main()
 {
- info();
- assign();
- cphyaddr();
-} 
+int page[MAX],i,n,f,ps,off,pno;
+int choice=0;
+printf("\nEnter the no of pages in memory: ");
+scanf("%d",&n);
+printf("\nEnter page size: ");
+scanf("%d",&ps);
+printf("\nEnter no of frames: ");
+scanf("%d",&f);
+for(i=0;i<n;i++)
+page[i]=-1;
+printf("\nEnter the page table\n");
+printf("(Enter frame no as -1 if that page is not present in any frame)\n\n");
+printf("\npageno\tframeno\n-------\t-------");
+for(i=0;i<n;i++)
+{
+printf("\n\n%d\t\t",i);
+scanf("%d",&page[i]);
+}
+do
+{
+printf("\n\nEnter the logical address(i.e,page no & offset):");
+scanf("%d%d",&pno,&off);
+if(page[pno]==-1)
+printf("\n\nThe required page is not available in any of frames");
+else
+printf("\n\nPhysical address(i.e,frame no & offset):%d,%d",page[pno],off);
+printf("\nDo you want to continue(1/0)?:");
+scanf("%d",&choice);
+}while(choice==1);
+}
