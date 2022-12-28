@@ -1,0 +1,4 @@
+ALPHA	6
+ONE	7
+TWO	9
+BETA	c
