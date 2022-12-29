@@ -3,7 +3,7 @@
 #include<string.h>
 
 FILE *fp1,*fp2,*fp3,*fp4,*fp5,*fp6;
-int length,size,s=-1,o=-1;
+int length,size,s=-1,o=-1,ad,a,j,i;
 char address[20],label[20],opcode[20],operand[20],start_addr[20],t1[20],t2[20],t3[20],t4[20];
 struct optab{
     char opcode[20],hexcode[20];
@@ -93,6 +93,40 @@ void read_symtab(){
         read_line();
     }
     while(strcmp(opcode,"END")!=0){
-        
-    }
+        if(strcmp(opcode,"BYTE")==0){
+            fprintf(fp5,"\t%s\t%s\t%s\t%s",address,label,opcode,operand);
+            sprintf(ad,"%d",atoi(operand[2]));
+            fprintf(fp5,"%s\n",ad);
+            fprintf(fp6,"^%s",ad);
+
+        }
+        else if(strcmp(opcode,"WORD")==0){
+            sprintf(&a,"%d",atoi(operand));
+            fprintf(fp5,"%s\t%s\t%s\t%s\t00000%s\n",address,label,opcode,operand,a);
+            fprintf(fp6,"^00000%s",a);
+
+        }
+        else if(strcmp(opcode,"RESW")==0||strcmp(opcode,"RESB")==0){
+            fprintf(fp5,"%s\t%s\t%s\t%s\n",address,label,opcode,operand);
+        }
+        else{
+            j=0;
+            while(strcmp(operand,ot[j].opcode)!=0){
+                j++;
+                i=0;
+                while(strcmp(operand,st[i].label)!=0){
+                    i++;
+                    }
+                    fprintf(fp5,"%s\t%s\t%s\t%s\t%s\t%s\n",address,label,opcode,operand,ot[j].hexcode,st[i].address);
+                    fprintf(fp6,"^%s%s",ot[j].hexcode,st[i].address);
+                }
+
+            }
+            read_line();
+
+        }
+        fprintf(fp5,"\t%s\t%s\t%s",label,opcode,operand);
+        fprintf(fp6,"\nE^00%s",start_addr);
+
+    
  }
