@@ -118,6 +118,7 @@ int main(){
             fprintf(fp3,"\n");
         }
     }
+    fprintf(fp5,"%d %d",locctr-start,size);
     fclose(fp1);
     fclose(fp2);
     fclose(fp3);
