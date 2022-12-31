@@ -44,12 +44,9 @@ void read_line(){
     }
 }
 void read_optab(){
-    while(1){
+    while(!feof(fp2)){
         o++;
         fscanf(fp2,"%s%s",ot[o].opcode,ot[o].hexcode);
-        if(getc(fp2)==EOF){
-            break;
-        }
     }
 }
 int main(){
@@ -64,9 +61,7 @@ int main(){
     if(strcmp(opcode,"START")==0){
         start=atoi(operand);
         locctr=start;
-        fprintf(fp1,"\t%s\t%s\t%x\n",label,opcode,operand);
         read_line();
-
     }
     else{
         locctr=0;
