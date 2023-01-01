@@ -14,8 +14,8 @@ int main()
     char input[10], name[10], symbol[10];
     int count = 0, progaddr, csaddr, add, len;
     FILE *fp1, *fp2;
-    fp1 = fopen("linkinput.dat", "r");
-    fp2 = fopen("loadmap.dat", "w");
+    fp1 = fopen("linkinput.txt", "r");
+    fp2 = fopen("loadmap.txt", "w");
     printf("Enter the location where the program has to be loaded : ");
     scanf("%d", &progaddr);
     csaddr = progaddr;
@@ -44,7 +44,6 @@ int main()
                 strcpy(es[count].csname, "**");
                 strcpy(es[count].extsym, input);
                 fscanf(fp1, "%d", &add);
-                // printf("CSADDR = %d",csaddr);
                 es[count].address = add + csaddr;
                 es[count].length = 0;
                 fprintf(fp2, "%s\t%s\t\t%d\t%d\n", es[count].csname, es[count].extsym, es[count].address, es[count].length);
@@ -52,11 +51,6 @@ int main()
                 fscanf(fp1, "%s", input);
             }
             csaddr = csaddr + len;
-        }
-        else if (strcmp(input, "T") == 0)
-        {
-            while (strcmp(input, "E") != 0)
-                fscanf(fp1, "%s", input);
         }
         fscanf(fp1, "%s", input);
     }
