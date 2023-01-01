@@ -1,62 +1,54 @@
-#include <stdio.h>
-#include <conio.h>
-#include <string.h>
-#define MAX 20
-struct estab
-{
-    char csname[10];
-    char extsym[10];
-    int address;
-    int length;
-} es[MAX];
-int main()
-{
-    char input[10], name[10], symbol[10];
-    int count = 0, progaddr, csaddr, add, len;
-    FILE *fp1, *fp2;
-    fp1 = fopen("linkinput.txt", "r");
-    fp2 = fopen("loadmap.txt", "w");
-    printf("Enter the location where the program has to be loaded : ");
-    scanf("%d", &progaddr);
-    csaddr = progaddr;
-    fprintf(fp2, "CS_NAME\tEXT_SYM_NAME\tADDRESS\tLENGTH\n");
-    fprintf(fp2, "--------------------------------------\n");
-    fscanf(fp1, "%s", input);
-    while (strcmp(input, "END") != 0)
-    {
-        if (strcmp(input, "H") == 0)
-        {
-            fscanf(fp1, "%s", name);
-            strcpy(es[count].csname, name);
-            strcpy(es[count].extsym, "**");
-            fscanf(fp1,"%d", &add);
-            es[count].address = add + csaddr;
-            fscanf(fp1, "%d", &len);
-            es[count].length = len;
-            fprintf(fp2, "%s\t%s\t\t%d\t%d\n", es[count].csname, es[count].extsym, es[count].address, es[count].length);
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define max 40
+
+struct estab{
+    char csname[20],extsymbol[20];
+    int address,length;
+}es[max];
+FILE *fp,*fpo;
+char input[20];
+char name[max];
+int add;
+int count=0,csaddr,len;
+int main(){
+    
+    fp=fopen("linkinput.txt","r");
+    fpo=fopen("output.txt","w");
+    fscanf(fp,"%s",input);
+    printf("Enter the staring address: \n");
+    scanf("%d",&csaddr);
+    while(strcmp(input,"END")!=0){
+        if(strcmp(input,"H")==0){
+            
+            fscanf(fp,"%s",name);
+            strcpy(es[count].csname,name);
+            fscanf(fp,"%d",&add);
+            es[count].address=csaddr+add;
+            strcpy(es[count].extsymbol,"***");
+            fscanf(fp,"%d",&len);
+            es[count].length=len;
             count++;
         }
-        else if (strcmp(input, "D") == 0)
-        {
-            fscanf(fp1, "%s", input);
-            while (strcmp(input, "R") != 0)
-            {
-                strcpy(es[count].csname, "**");
-                strcpy(es[count].extsym, input);
-                fscanf(fp1, "%d", &add);
-                es[count].address = add + csaddr;
-                es[count].length = 0;
-                fprintf(fp2, "%s\t%s\t\t%d\t%d\n", es[count].csname, es[count].extsym, es[count].address, es[count].length);
+        else if(strcmp(input,"D")==0){
+            while(strcmp(input,"R")!=0&&strcmp(input,"T")!=0){
+                fscanf(fp,"%s",name);
+                strcpy(es[count].extsymbol,name);
+                strcpy(es[count].csname,"***");
+                fscanf(fp,"%d",&add);
+                es[count].address=csaddr+add;
+                es[count].length=0;
                 count++;
-                fscanf(fp1, "%s", input);
-            }
-            csaddr = csaddr + len;
+                fscanf(fp,"%s",input);
+            } 
+            csaddr=csaddr+len;
+              
         }
-        fscanf(fp1, "%s", input);
+        fscanf(fp,"%s",input); 
     }
-    fprintf(fp2, "--------------------------------------\n");
-    fclose(fp1);
-    fclose(fp2);
-    printf("FINISHED\n");
+    for(int i=0;i<count;i++){
+        fprintf(fpo,"%s\t%s\t%d\t%d\n",es[i].csname,es[i].extsymbol,es[i].address,es[i].length);
+    }
     return 0;
 }
