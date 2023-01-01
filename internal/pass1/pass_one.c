@@ -1,35 +1,33 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-FILE *fp1,*fp2,*fp3,*fp4,*fp5;
-char opcode[20],operand[20],label[20],t1[20],t2[20],t3[20],s=0;
-
-int o=-1,locctr,start,locctr,flag,size=0;
-
+FILE *f1,*f2,*f3,*f4,*f5;
+char opcode[20],label[20],operand[20],t1[20],t2[20],t3[20];
+int s=0,o=0,size=0;
 struct symtab{
-    char label[20];
-    int address;
+    char symbol[20];
+    int addr;
 }st[20];
+
 struct optab{
-    char opcode[10],hexcode[10];
+    char opcode[20],hexcode[20];
 }ot[20];
 
 void read_line(){
     strcpy(t1,"");
     strcpy(t2,"");
     strcpy(t3,"");
-    fscanf(fp1,"%s",t1);
-    if(getc(fp1)!='\n'){
-        fscanf(fp1,"%s",t2);
-        if(getc(fp1)!='\n'){
-            fscanf(fp1,"%s",t3);
+    fscanf(f1,"%s",t1);
+    if(getc(f1)!='\n'){
+        fscanf(f1,"%s",t2);
+        if(getc(f1)!='\n'){
+            fscanf(f1,"%s",t3);
         }
     }
     if(strcmp(t1,"")!=0&&strcmp(t2,"")!=0&&strcmp(t3,"")!=0){
         strcpy(label,t1);
         strcpy(opcode,t2);
         strcpy(operand,t3);
-
     }
     else if(strcmp(t1,"")!=0&&strcmp(t2,"")!=0&&strcmp(t3,"")==0){
         strcpy(label,"");
@@ -40,24 +38,32 @@ void read_line(){
         strcpy(label,"");
         strcpy(opcode,t1);
         strcpy(operand,"");
-
     }
 }
+
 void read_optab(){
-    while(!feof(fp2)){
+    while(!feof(f2)){
+        fscanf(f2,"%s%s",ot[o].opcode,ot[o].hexcode);
         o++;
-        fscanf(fp2,"%s%s",ot[o].opcode,ot[o].hexcode);
     }
 }
 int main(){
-    fp1=fopen("input.txt","r");
-    fp2=fopen("optab.txt","r");
-    fp3=fopen("symtab.txt","w");
-    fp4=fopen("intermediate.txt","w");
-    fp5=fopen("length.txt","w");
+   
 
+    f1=fopen("input.txt","r");
+    f2=fopen("optab.txt","r");
+    f3=fopen("intermediate.txt","w");
+    f4=fopen("symtab.txt","w");
+    f5=fopen("length.txt","w");
+    int locctr,start;
     read_optab();
-    fscanf(fp1,"%s%s%d",label,opcode,&operand);
+    printf("OPTAB: ");
+    for(int i=0;i<o;i++){
+        printf("%s\t%s\n",ot[i].opcode,ot[i].hexcode);
+
+    }
+    fscanf(f1,"%s%s%s",label,opcode,operand);
+    
     if(strcmp(opcode,"START")==0){
         start=atoi(operand);
         locctr=start;
@@ -67,56 +73,56 @@ int main(){
         locctr=0;
     }
     while(strcmp(opcode,"END")!=0){
-        fprintf(fp4,"%x\t%s\t%s\t%s\n",locctr,label,opcode,operand);
+        fprintf(f3,"%d\t%s\t%s\t%s\n",locctr,label,opcode,operand);
         if(strcmp(label,"")!=0){
             for(int i=0;i<s;i++){
-                if(strcmp(st[i].label,label)==0){
+                if(strcmp(st[i].symbol,label)==0){
                     printf("Error");
                     exit(0);
                 }
             }
-            strcpy(st[s].label,label);
-            st[s].address=locctr;
+            strcpy(st[s].symbol,label);
+            st[s].addr=locctr;
             s++;
         }
-        flag=0;
-        for(int i=0;i<=o;i++){
+        int flag=0;
+        for(int i=0;i<o;i++){
             if(strcmp(ot[i].opcode,opcode)==0){
+                flag=1;
                 locctr+=0x3;
                 size+=3;
-                flag=1;
                 break;
             }
         }
-        if(flag==0){
-            if(strcmp(opcode,"WORD")==0){
-                locctr+=0X3;
-                size+=3;
-
-            }
-            else if(strcmp(opcode,"RESW")==0){
-                locctr+=(0x3*(atoi(operand)));
-            }
-            else if(strcmp(opcode,"BYTE")==0){
-                locctr+=0X1;
-                size+=1;
+        if(flag!=0){
+            if(strcmp(opcode,"RESW")==0){
+                locctr+=0x3*(atoi(operand));
             }
             else if(strcmp(opcode,"RESB")==0){
-                locctr+=(atoi(operand));
+                locctr+=atoi(operand);
             }
+            else if(strcmp(opcode,"WORD")==0){
+                locctr+=0x3;
+                size+=3;
+            }
+            else if(strcmp(opcode,"BYTE")==0){
+                locctr+=0x1;
+                size+=1;
+            }
+           
         }
-        read_line();   //reads next Line
+        read_line();
+
     }
+
     for(int i=0;i<s;i++){
-        fprintf(fp3,"%s\t%x",st[i].label,st[i].address);
-        if(i!=s){
-            fprintf(fp3,"\n");
-        }
+        fprintf(f4,"%s\t%d\n",st[i].symbol,st[i].addr);
     }
-    fprintf(fp5,"%d %d",locctr-start,size);
-    fclose(fp1);
-    fclose(fp2);
-    fclose(fp3);
-    fclose(fp4);
-    fclose(fp5);
+    fprintf(f5,"%d\t%d",locctr-start,size);
+    fclose(f1);
+    fclose(f2);
+    fclose(f3);
+    fclose(f4);
+    fclose(f5);
+
 }
