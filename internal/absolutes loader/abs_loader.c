@@ -1,42 +1,46 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#define max 30
 int main(){
-    FILE *fp,*fp1;
+    FILE *fp,*fo;
     fp=fopen("abssrc.txt","r");
-    fp1=fopen("outs.txt","w");
-    char name[20],line[30];
+    fo=fopen("output.txt","w");
+    char line[max],name[max];
     fscanf(fp,"%s",line);
     int k=0;
     if(line[0]=='H'){
-       for(int i=2;line[i]!='^';i++){
-        name[k++]=line[i];
-       }
+        for(int i=2;line[i]!='^';i++){
+            name[k++]=line[i];
+        }
     }
-    char startaddr[20];
-    int sta;
-    int i,j;
-    printf("The name of the program is %s",name);
+    printf("Name is: %s",name);
     fscanf(fp,"%s",line);
-    while(!feof(fp)){
-       while(line[0]=='T'){
-        for(i=2,j=0;line[i]!='^';i++,j++){
-            startaddr[j]=line[i];
-        }
-        sta=atoi(startaddr);
-        i=12;
-        while(line[i]!='$'){
-            if(line[i]!='^'){
-                fprintf(fp1,"%d\t%c\t%c\n",sta,line[i],line[i+1]);
-                i=i+2;
-                sta++;
-            }
-            else{
-                i++;
-            }
-        }
-        fscanf(fp,"%s",line);
-       }
+    char startaddr[max];
+    int sta;
     
+    while(!feof(fp)){
+        int i,j;
+        while(line[0]=='T'){
+            int v=0;
+            for(i=2;line[i]!='^';i++){
+                startaddr[v++]=line[i];
+            }
+            sta=atoi(startaddr);
+
+            i=12;
+            while(line[i]!='$'){
+                if(line[i]!='^'){
+                    fprintf(fo,"%d\t%c\t%c\n",sta,line[i],line[i+1]);
+                    i+=2;
+                    sta++;
+                }
+                else{
+                    i++;
+                }
+            }
+            fscanf(fp,"%s",line);
+
+        }
     }
 }
