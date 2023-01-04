@@ -2,80 +2,74 @@
 #include<stdlib.h>
 #include<string.h>
 struct directory{
-    char name[20];
+    char dname[20];
     int fcount;
     char fname[20][20];
 };
-struct directory dir;
 int main(){
-    dir.fcount=-1;
-    printf("Enter the name of tghe directory: ");
-    scanf("%s",dir.name);
+    struct directory dir;
+    printf("Enter the directory name: \n");
+    char name[20];
+    scanf("%s",dir.dname);
+    dir.fcount=0;
     int state=0;
-    int ch;
     while(state==0){
-        printf("1. Create File 2. Search 3. Delete 4.display 5.Exit");
+        printf("1. Create file 2. search file 3. delete file 4. exit");
+        int ch;
         scanf("%d",&ch);
         switch(ch){
             case 1:{
-                printf("Enter the name of the file: ");
-                dir.fcount++;
-                int x=dir.fcount;
+                printf("Enter the name of the file..");
                 scanf("%s",dir.fname[dir.fcount]);
+                dir.fcount++;
                 break;
             }
             case 2:{
-                printf("Enter the name of the file to be searched: ");
-                char target_file[20];
-                scanf("%s",target_file);
-                if(dir.fcount==-1){
-                    printf("Empty...");
-                    break;
+                if(dir.fcount==0){
+                    printf("Empty..");
                 }
-                int found=0;
-                for(int i=0;i<=dir.fcount;i++){
-                    if(strcmp(dir.fname[i],target_file)==0){
-                        printf("File Found..");
-                        found=1;
-                        break;
+                else{
+                    printf("Enter the file name: ");
+                    char name[20];
+                    scanf("%s",name);
+                    int flag=0;
+                    for(int i=0;i<dir.fcount;i++){
+                        if(strcmp(dir.fname[i],name)==0){
+                            printf("Found file..");
+                            flag=1;
+                            break;
+                        }
                     }
-                }
-                if(found==0){
-                    printf("Not FOund");
+                    if(flag==0){
+                        printf("Not found..");
+                    }
                 }
                 break;
             }
             case 3:{
-                printf("Enter the name of the file to be deleted: ");
-                char target_file[20];
-                scanf("%s",target_file);
-                int found=0;
-                for(int i=0;i<=dir.fcount;i++){
-                    if(strcmp(dir.fname[i],target_file)==0){
-                        strcpy(dir.fname[i],dir.fname[dir.fcount]);
-                        dir.fcount--;
-                        found=1;
-                    }
-                }
-                if(found==0){
-                    printf("File not found..");
-                }
-                break;
-            }
-            case 4:{
                 if(dir.fcount==0){
-                    printf("empty..");
+                    printf("Empty..");
                 }
                 else{
-                     for(int i=0;i<=dir.fcount;i++){
-                        printf("\nFile name: %s",dir.fname[i]);
-                     }
+                    printf("Enter the file name: ");
+                    char name[30];
+                    scanf("%s",name);
+                    int target,flag=0;
+                    for(int i=0;i<dir.fcount;i++){
+                        if(strcmp(name,dir.fname[i])==0){
+                            target=i;
+                            flag=1;
+                            break;
+                        }
+                    }
+                    if(flag==0){
+                        
+                    }
                 }
-               break;
+                break;  
             }
-            case 5:{
-                state=1;
-                break;
+            case 4:{
+
             }
         }
     }
