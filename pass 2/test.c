@@ -29,15 +29,17 @@ int main()
         {
             if (strcmp(opc, opcode) == 0)
             {
-                fclose(f3);
-                fscanf(f2,"%s%s",syma,sym);
-                while(!feof(f2)){
-                    if(strcmp(operand,sym)==0){
-                        fprintf(f5,"%s%s",oph,syma);
+                fscanf(f2, "%s%s", syma, sym);
+                while (!feof(f2))
+                {
+                    if (strcmp(operand, sym) == 0)
+                    {
+                        fprintf(f5, "%s%s", oph, syma);
                         break;
                     }
-                    else{
-                        fscanf(f2,"%s%s",syma,sym);
+                    else
+                    {
+                        fscanf(f2, "%s%s", syma, sym);
                         break;
                     }
                 }
@@ -48,33 +50,26 @@ int main()
                 fscanf(f3, "%s%s", opc, oph);
             }
         }
-if ((strcmp(opcode, "BYTE") == 0) || (strcmp(opcode,"WORD")==0))
+        if ((strcmp(opcode, "BYTE") == 0) || (strcmp(opcode, "WORD") == 0))
         {
-            
+
             if (strcmp(opcode, "WORD") == 0)
-                fprintf(f5,"0000%s^", operand);
+                fprintf(f5, "0000%s^", operand);
             else
             {
                 len = strlen(operand);
                 for (int i = 2; i < len; i++)
                 {
-                    fprintf(f5,"%d", operand[i]);
+                    fprintf(f5, "%d", operand[i]);
                 }
-                fprintf(f5,"^");
+                fprintf(f5, "^");
             }
         }
         fscanf(f1, "%s%s%s%s", address, label, opcode, operand);
         f3 = fopen("optab.txt", "r");
         fseek(f3, SEEK_SET, 0);
-
-
     }
 
     fprintf(f5, "\nE^%s", start);
-    fclose(f1);
-    fclose(f2);
-    fclose(f3);
-    fclose(f4);
-    fclose(f5);
     return 0;
 }
