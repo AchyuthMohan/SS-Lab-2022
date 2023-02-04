@@ -19,7 +19,6 @@ int main(){
     char startaddr[max];
     int sta;
     
-    while(!feof(fp)){
         int i,j;
         while(line[0]=='T'){
             int v=0;
@@ -43,4 +42,3 @@ int main(){
 
         }
     }
-}
