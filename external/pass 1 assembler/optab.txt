@@ -1,0 +1,4 @@
+LDA 00
+ADD 10
+SUB 20
+STA 03
