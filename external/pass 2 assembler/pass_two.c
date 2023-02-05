@@ -21,45 +21,34 @@ int main()
     fscanf(f1, "%s%s%s%s", address, label, opcode, operand);
     while (strcmp(opcode,"END")!=0)
     {
-        printf("Hello");
-        fscanf(f2, "%s%s", opc, oph);
-        
-        while (!feof(f2))
-        {
-            if (strcmp(opc, opcode) == 0)
-            {
-                fscanf(f3, "%s%s", sym, syma);
-                while (!feof(f3))
-                {
-                    if (strcmp(sym, operand) == 0)
-                    {
-                        fprintf(f5, "%s%s", oph, syma);
+        fscanf(f2,"%s%s",opc,oph);
+        while(!feof(f2)){
+            if(strcmp(opc,opcode)==0){
+                fscanf(f3,"%s%s",sym,syma);
+                while(!feof(f3)){
+                    if(strcmp(sym,operand)==0){
+                        fprintf(f5,"%s%s^",oph,syma);
                         break;
                     }
-                    else
-                    {
-                        fscanf(f3, "%s%s", sym, syma);
+                    else{
+                        fscanf(f3,"%s%s",sym,syma);
                         break;
                     }
                 }
                 break;
             }
-            else
-            {
-                fscanf(f2, "%s%s", opc, oph);
-                
+            else{
+                fscanf(f2,"%s%s",opc,oph);
             }
-            
         }
-        
-        if(opcode=="WORD"||opcode=="BYTE"){
-            if(opcode=="WORD"){
-                fprintf(f5,"^00000%s^",operand);
+        if(strcmp(opcode,"BYTE")==0 || strcmp(opcode,"WORD")==0){
+            if(strcmp(opcode,"WORD")==0){
+                fprintf(f5,"0000%d^",operand);
             }
             else{
                 len=strlen(operand);
                 for(int i=2;i<len;i++){
-                    fprintf(f5,"^%d^",operand[i]);
+                    fprintf(f5,"%c",operand[i]);
                 }
                 fprintf(f5,"^");
             }
