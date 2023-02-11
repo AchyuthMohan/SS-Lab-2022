@@ -49,7 +49,7 @@ int main(){
                 fprintf(f5,".\t%s\t%s\n",opcode1,operand1);
                 fscanf(f3,"%s%s",opcode1,operand1);
                 while(strcmp(opcode1,"MEND")!=0){
-                    if(operand[0]=='?'){
+                    if(operand1[0]=='?'){
                         fscanf(f4,"%s",arg);
                         fprintf(f5,"-\t%s\t%s",opcode1,arg);
                     }
