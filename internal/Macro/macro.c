@@ -7,7 +7,7 @@ int main()
     int len, i, pos = 1;
     char arg[20], mne[20], opnd[20], la[20], name[20], mne1[20], opnd1[20], pos1[10], pos2[10];
     f1 = fopen("input.txt", "r");
-    f2 = fopen("namtab.txt", "w+");     //w+ means read as well as write mode
+    f2 = fopen("namtab.txt", "w+"); // w+ means read as well as write mode
     f3 = fopen("deftab.txt", "w+");
     f4 = fopen("argtab.txt", "w+");
     f5 = fopen("op.txt", "w+");
@@ -32,7 +32,7 @@ int main()
                 fprintf(f3, "%s\t%s\n", mne, opnd);
                 fscanf(f1, "%s%s%s", la, mne, opnd);
             }
-            fprintf(f3, "%s", mne);
+            fprintf(f3, "%s", mne); // prints MEND
         }
         else
         {
@@ -60,12 +60,15 @@ int main()
                         fprintf(f5, "-\t%s\t%s\n", mne1, arg);
                     }
                     else
+                    {
                         fprintf(f5, "-\t%s\t%s\n", mne1, opnd1);
+                    }
+
                     fscanf(f3, "%s%s", mne1, opnd1);
                 }
             }
             else
-                fprintf(f5, "%s\t%s\t%s\n", la, mne, opnd);
+                fprintf(f5, "%s\t%s\t%s\n", la, mne, opnd); // ie not a macro invo or macro definition
         }
         fscanf(f1, "%s%s%s", la, mne, opnd);
     }
