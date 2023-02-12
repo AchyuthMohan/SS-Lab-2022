@@ -20,7 +20,6 @@ CODE SEGMENT
     MOV DS,AX
     LEA SI,ARRAY
     MOV CX,05H 
-    
    BACK: MOV BL,[SI]
     
     CMP SE,BL
