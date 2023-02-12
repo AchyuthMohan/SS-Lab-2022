@@ -1,5 +1,5 @@
 DATA SEGMENT
-       BLOCK1 db "malayalam"
+       BLOCK1 db "mala"
        MSG1 db "Palindrom$"
        MSG2 db "Not palindrom$"
 DATA ENDS
