@@ -36,9 +36,8 @@ int main(){
             totalMoves+=abs(intial-rq[i]);
             intial=rq[i];
         }
-        totalMoves+=abs(size-rq[i-1]-1);
-        totalMoves+=abs(size-1-0);
-        intial=0;
+        totalMoves+=abs(rq[i-1]-1);
+        intial=size-1;
         for(i=0;i<index;i++){
             totalMoves+=abs(intial-rq[i]);
             intial=rq[i];
@@ -50,8 +49,7 @@ int main(){
             intial=rq[i];
         }
         totalMoves+=abs(rq[i+1]-0);
-        totalMoves+=abs(size-1);
-        intial=size-1;
+        intial=0;
         for(i=n-1;i>=index;i--){
             totalMoves+=abs(intial-rq[i]);
             intial=rq[i];
