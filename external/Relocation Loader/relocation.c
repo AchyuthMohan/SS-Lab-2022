@@ -1,37 +1,42 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #define max 100
 int main(){
-    FILE *f1,*f2,*f3;
+    FILE *f1,*f2;
+    char line[max];
     f1=fopen("input.txt","r");
     f2=fopen("output.txt","w");
-
-    int start_addr;
-    printf("Enter the new starting address: \n");
-    scanf("%x",&start_addr);
-    char line[max];
-    char addr[max];
-    int k;
-    int hexaddr;
     fscanf(f1,"%s",line);
+    char name[max];
+    int k=0;
+    for(int i=1;i<7;i++){
+        name[k++]=line[i];
+    }
+    fprintf(f2,"Name: %s\n",name);
+    fscanf(f1,"%s",line);
+    printf("Enter the start address: \n");
+    int addr;
+    scanf("%d",&addr);
+    char hexaddr[max];
+    int hexaddr_val;
+    int c,i;
     while(!feof(f1)){
+        while(line[0]=='T'){
+            c=0;
+            for(i=1;i<7;i++){
+                hexaddr[c++]=line[i];
+            }
+            hexaddr_val=atoi(hexaddr);
+            i=12;
+            while(line[i]!='\0'){
+                fprintf(f2,"%d\t%c%c\n",hexaddr_val+addr,line[i],line[i+1]);
+                i+=2;
+                hexaddr_val++;
 
-        if(line[0]=='T'){
-            k=0;
-            for(int i=1;i<7;i++){
-                addr[k++]=line[i];
             }
-            f3=fopen("temp.txt","r+");
-            fprintf(f3,"%s",addr);
-            fscanf(f3,"%x",&hexaddr);
-            k=9;
-            while(line[k]!='\0'){
-                fprintf(f2,"%x\t%c%c\n",hexaddr+start_addr,line[k],line[k+1]);
-                k+=2;
-                hexaddr++;
-            }
+            
+            fscanf(f1,"%s",line);
         }
-
-        fscanf(f1,"%s",line);
     }
 }
