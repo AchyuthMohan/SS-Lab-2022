@@ -38,7 +38,7 @@ int main(){
         }
         totalMoves+=abs(rq[i-1]-1);
         intial=size-1;
-        for(i=0;i<index;i++){
+        for(i=index-1;i<=0;i--){
             totalMoves+=abs(intial-rq[i]);
             intial=rq[i];
         }
@@ -50,7 +50,7 @@ int main(){
         }
         totalMoves+=abs(rq[i+1]-0);
         intial=0;
-        for(i=n-1;i>=index;i--){
+        for(i=index;i<n;i++){
             totalMoves+=abs(intial-rq[i]);
             intial=rq[i];
         }
